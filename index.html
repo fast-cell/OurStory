@@ -140,18 +140,57 @@
         justify-content: center;
         text-align: center;
         z-index: 2;
-        padding: 2rem;
+        padding: 2rem 2rem 8rem;
       }
 
       .hero-date {
-        font-family: "Lora", serif;
-        font-size: 0.9rem;
-        letter-spacing: 6px;
-        text-transform: uppercase;
-        color: var(--gold);
-        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1.8rem;
+        margin-bottom: 2rem;
         opacity: 0;
         animation: fadeSlideUp 1s ease 0.3s forwards;
+      }
+      .hero-date .date-digit {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.15rem;
+      }
+      .hero-date .date-digit span {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3.2rem, 8vw, 5.5rem);
+        font-weight: 700;
+        line-height: 1;
+        background: linear-gradient(
+          135deg,
+          var(--accent-light),
+          var(--gold-light),
+          var(--accent)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .hero-date .date-sep {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        color: var(--gold);
+        opacity: 0.25;
+        padding-top: 0.5rem;
+      }
+      .hero-date-line {
+        width: 120px;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--gold),
+          transparent
+        );
+        margin: 0 auto 1.5rem;
+        opacity: 0.3;
       }
 
       .hero-title {
@@ -444,30 +483,127 @@
 
       .tl-media {
         width: 100%;
-        aspect-ratio: 16/10;
-        overflow: hidden;
         position: relative;
-      }
-      .tl-media img,
-      .tl-media video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
+        background: #000;
         transition: transform 0.6s ease;
       }
-      .tl-card:hover .tl-media img,
-      .tl-card:hover .tl-media video {
-        transform: scale(1.05);
+      .tl-card:hover .tl-media {
+        transform: scale(1.03);
       }
-      .tl-media .media-overlay {
+
+      .tl-media-gallery {
+        position: relative;
+      }
+
+      .tl-media-item {
+        display: none;
+      }
+      .tl-media-item.active {
+        display: block;
+      }
+
+      .tl-media-item img,
+      .tl-media-item video {
+        width: 100%;
+        display: block;
+        max-height: 70vh;
+        object-fit: contain;
+        transition: transform 0.6s ease;
+      }
+
+      .tl-media-overlay {
         position: absolute;
         inset: 0;
         background: linear-gradient(
           to top,
-          rgba(15, 10, 10, 0.6),
+          rgba(15, 10, 10, 0.6) 0%,
           transparent 50%
         );
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .tl-gallery-arrows {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6px;
+        pointer-events: none;
+        z-index: 3;
+      }
+      .tl-gallery-arrow {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.35);
+        color: #fff;
+        font-size: 0.85rem;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        pointer-events: auto;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+      }
+      .tl-gallery-arrow:hover {
+        background: rgba(0, 0, 0, 0.6);
+        border-color: var(--gold);
+      }
+      .tl-gallery-arrow:active {
+        transform: scale(0.9);
+      }
+
+      .tl-gallery-counter {
+        position: absolute;
+        bottom: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 3;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.6);
+        background: rgba(0, 0, 0, 0.35);
+        padding: 3px 10px;
+        border-radius: 100px;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        pointer-events: none;
+      }
+
+      .tl-video-mute {
+        position: absolute;
+        bottom: 48px;
+        right: 12px;
+        z-index: 5;
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        background: rgba(0, 0, 0, 0.45);
+        color: #fff;
+        font-size: 0.8rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+      }
+      .tl-video-mute:hover {
+        background: rgba(0, 0, 0, 0.65);
+        border-color: var(--gold);
+      }
+      .tl-video-mute.muted {
+        color: var(--fg-muted);
+      }
+      .tl-video-mute i {
         pointer-events: none;
       }
 
@@ -486,19 +622,6 @@
         color: var(--fg-muted);
         line-height: 1.7;
       }
-      .tl-tag {
-        display: inline-block;
-        margin-top: 1rem;
-        padding: 0.25rem 0.8rem;
-        font-size: 0.7rem;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        border: 1px solid var(--card-border);
-        border-radius: 100px;
-        color: var(--accent-light);
-        background: rgba(212, 131, 107, 0.08);
-      }
-
       /* Text-only card (no media) */
       .tl-card.text-only .tl-content {
         padding: 2rem 1.8rem;
@@ -560,68 +683,6 @@
         }
       }
 
-      /* ===== MUSIC TOGGLE ===== */
-      .music-toggle {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        z-index: 100;
-        width: 48px;
-        height: 48px;
-        border-radius: 50%;
-        border: 1px solid var(--card-border);
-        background: var(--card);
-        backdrop-filter: blur(10px);
-        color: var(--gold);
-        font-size: 1rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-      }
-      .music-toggle:hover {
-        border-color: var(--gold);
-        box-shadow: 0 0 20px var(--accent-glow);
-        transform: scale(1.1);
-      }
-      .music-toggle .bars {
-        display: flex;
-        gap: 2px;
-        align-items: flex-end;
-        height: 16px;
-      }
-      .music-toggle .bar {
-        width: 3px;
-        background: var(--gold);
-        border-radius: 2px;
-        transition: height 0.3s ease;
-      }
-      .music-toggle.playing .bar:nth-child(1) {
-        animation: barBounce 0.6s ease-in-out infinite alternate;
-      }
-      .music-toggle.playing .bar:nth-child(2) {
-        animation: barBounce 0.6s ease-in-out 0.15s infinite alternate;
-      }
-      .music-toggle.playing .bar:nth-child(3) {
-        animation: barBounce 0.6s ease-in-out 0.3s infinite alternate;
-      }
-      .music-toggle.playing .bar:nth-child(4) {
-        animation: barBounce 0.6s ease-in-out 0.1s infinite alternate;
-      }
-
-      @keyframes barBounce {
-        from {
-          height: 4px;
-        }
-        to {
-          height: 16px;
-        }
-      }
-      .music-toggle:not(.playing) .bar {
-        height: 4px !important;
-      }
-
       /* ===== PROGRESS BAR ===== */
       .progress-bar {
         position: fixed;
@@ -667,6 +728,27 @@
           margin-right: 1rem;
           padding: 2rem 1.5rem;
         }
+        .tl-media-item img,
+        .tl-media-item video {
+          max-height: 50vh;
+        }
+        .tl-video-mute {
+          bottom: 42px;
+          right: 8px;
+          width: 30px;
+          height: 30px;
+          font-size: 0.7rem;
+        }
+        .tl-gallery-arrow {
+          width: 32px;
+          height: 32px;
+          font-size: 0.75rem;
+        }
+        .tl-gallery-counter {
+          bottom: 8px;
+          font-size: 0.6rem;
+          padding: 2px 8px;
+        }
       }
 
       /* ===== REDUCED MOTION ===== */
@@ -700,6 +782,7 @@
     <!-- ===== HERO ===== -->
     <header class="hero">
       <div class="hero-date" id="heroDate"></div>
+      <div class="hero-date-line"></div>
       <h1 class="hero-title">
         <span class="line1">Happy 1st</span>
         <span class="line2">Anniversary</span>
@@ -727,17 +810,16 @@
 
     <!-- ===== LOVE LETTER ===== -->
     <section class="love-letter" id="loveLetter">
-      <!-- Edit your letter below -->
       <p>
-        Before the timeline begins, I just want to say &mdash; this past year
-        has been the most beautiful chapter of my life. Every laugh, every quiet
-        moment, every adventure&hellip; they all led here.
+        قبل از اینکه تایم‌لاین شروع بشه، فقط می‌خوام بگم &mdash; این یک سال
+        گذشته قشنگ‌ترین فصل زندگی من بود. هر خنده، هر لحظه آروم، هر
+        ماجراجویی&hellip; همه‌شون به اینجا ختم شدن.
       </p>
       <p>
-        You turned ordinary days into something I never want to forget. So I
-        made this little page to remember them all with you.
+        تو روزهای معمولی رو به چیزی تبدیل کردی که هیچ‌وقت نمی‌خوام فراموشش کنم.
+        برای همین این صفحه رو درست کردم تا همه‌شون رو با تو یادم بمونه.
       </p>
-      <div class="signature">Forever yours</div>
+      <div class="signature">&zwnj;Together forever</div>
     </section>
 
     <!-- ===== TIMELINE ===== -->
@@ -753,30 +835,13 @@
 
     <!-- ===== FINAL ===== -->
     <section class="final-section">
-      <h2>Here's to many more</h2>
+      <h2>به سال‌های بیشتری که در پیش داریم</h2>
       <p>
-        To every sunrise we'll share, every late-night talk, every "I love you"
-        that still means the world.
+        به هر طلوعی که باهم می‌بینیم، هر گفتگوی نیمه‌شب، هر "دوستت دارم"ی که
+        هنوز هم دنیارو برام معنی می‌ده.
       </p>
       <div class="heart-burst"><i class="fas fa-heart"></i></div>
     </section>
-
-    <!-- Music Toggle (add your own audio src) -->
-    <button
-      class="music-toggle"
-      id="musicToggle"
-      aria-label="Toggle background music"
-    >
-      <div class="bars">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
-      </div>
-    </button>
-    <audio id="bgMusic" loop preload="none">
-      <source src="assets/music/our-song.mp3" type="audio/mpeg" />
-    </audio>
 
     <script>
       // ================================================================
@@ -787,98 +852,134 @@
       //  - For "video": set "src" to your video URL (mp4/webm)
       //  - For "text": no "src" needed, just title + description
       //  - side: "left" | "right" (alternates automatically if omitted)
-      //  - tag: optional small label
       // ================================================================
 
-      const ANNIVERSARY_START = new Date("2024-07-12"); // <-- CHANGE to your actual start date
+      const ANNIVERSARY_START = new Date("2025-06-24");
 
       const timelineData = [
         {
-          date: "July 12, 2024",
-          title: "The Day It All Began",
+          date: "جمعه ۲۰ تیر ۱۴۰۴",
+          title: "دیت دوم تو یه کافه زیبا",
           description:
-            "The moment I saw you, I knew something had changed forever. That first smile, that first hello — I replay it in my head all the time.",
-          type: "photo",
-          src: "assets/images/thespark.jpeg",
-          tag: "Where it started",
+            "همه چیز از همین روزها شروع شد؛ اولین عکس با دیت دوم شروع شد چون از دیت اول عکس نگرفتیم. روزی که شاید هیچ‌کدوممون نمی‌دونستیم قراره چقدر زندگی همدیگه رو تغییر بدیم. هنوزم وقتی به اون لحظه فکر می‌کنم، لبخند می‌زنم.",
+          media: [{ type: "photo", src: "assets/images/thespark.jpeg" }],
           side: "left",
         },
         {
-          date: "August 2024",
-          title: "Our First Date",
+          date: "یکشنبه ۲۲ تیر ۱۴۰۴",
+          title: "اولین موتور سواری دونفره",
           description:
-            "Nervous hands, awkward laughs, and that one moment when our eyes met and everything just felt right. I knew I was falling.",
-          type: "photo",
-          src: "assets/images/firstsunset.jpeg",
-          tag: "First date",
+            "روزی که برای اولین بار سوار موتورم شدی و باهم رفتیم تجریش. اون شب مثل ماه میدرخشیدی.",
+          media: [
+            { type: "photo", src: "assets/images/tajrish.jpeg" },
+            { type: "photo", src: "assets/images/luckyhelmet.jpeg" },
+          ],
           side: "right",
         },
         {
-          date: "September 2024",
-          title: "Late Night Talks",
+          date: "جمعه ۲۷ تیر ۱۴۰۴",
+          title: "سقوط یک فرشته",
           description:
-            "Those 3 AM conversations where we told each other everything — our dreams, our fears, our favorite midnight snacks. I could listen to you forever.",
-          type: "text",
-          tag: "3 AM conversations",
+            "اولین تولدی که کنار تو جشن گرفتم. دیدن خوشحالیت از هر هدیه‌ای برام ارزشمندتر بود و اون روز فقط بیشتر مطمئن شدم که چقدر دوستت دارم.",
+          media: [
+            { type: "photo", src: "assets/images/isntshebeatiful.jpeg" },
+            { type: "photo", src: "assets/images/herBday.jpeg" },
+          ],
           side: "left",
         },
         {
-          date: "October 2024",
-          title: "Our First Trip Together",
+          date: "شنبه ۱۸ مرداد ۱۴۰۴",
+          title: "اولین غروب دونفره",
           description:
-            "Getting lost in a new city, but never once feeling lost with you. Every wrong turn was just another adventure.",
-          type: "photo",
-          src: "assets/images/firstTrip.jpeg",
-          tag: "Adventure",
+            "غروب‌های زیادی وجود دارن، اما اون غروب فرق داشت. چون برای اولین بار کنار کسی بودم که دلم می‌خواست همه غروب‌های بعدی رو هم باهاش ببینم.",
+          media: [{ type: "photo", src: "assets/images/firstsunset.jpeg" }],
           side: "right",
         },
         {
-          date: "November 2024",
-          title: "Cooking Disasters",
+          date: "یکشنبه ۲ شهریور ۱۴۰۴",
+          title: "اولین سفر یک روزه مون",
           description:
-            "That time we tried to make pasta from scratch and ended up ordering pizza. The kitchen was a mess but we couldn't stop laughing.",
-          type: "text",
-          tag: "Laughing together",
+            "اولین سفر یک روزه مون تو دل جنگل های شمال پر از خاطره‌هایی بود که هنوزم یادشون حالمو خوب می‌کنه. با تو حتی تو جنگل گم شدن هم لذت‌بخشه.",
+          media: [{ type: "photo", src: "assets/images/firstTrip.jpeg" }],
           side: "left",
         },
         {
-          date: "December 2024",
-          title: "Our First Christmas",
+          date: "جمعه ۲۸ شهریور ۱۴۰۴",
+          title: "کنسرت برنامه ریزی نشده",
           description:
-            "Matching pajamas, terrible wrapping jobs, and the look on your face when you opened your gift. That's what Christmas is supposed to feel like.",
-          type: "text",
-          tag: "Holiday magic",
+            "قرار نبود اون شب کنسرت بریم، ولی از همون اتفاق‌های غیرمنتظره‌ای شد که بعدها بارها درباره‌ش حرف زدیم. بعضی از بهترین خاطره‌ها هیچ برنامه‌ای ندارن.",
+          media: [{ type: "video", src: "assets/videos/concert.mp4" }],
           side: "right",
         },
         {
-          date: "February 2025",
-          title: "Valentine's Day",
+          date: "پنجشنبه ۸ آبان ۱۴۰۴",
+          title: "اولین هالووین",
           description:
-            "Not the grand gestures — it was the little things. The handwritten note, the way you held my hand a little tighter. You make every day feel like Valentine's.",
-          type: "photo",
-          src: "assets/images/valentine.jpeg",
-          tag: "Love",
+            "شاید برای بقیه فقط یه مهمونی بود، ولی برای من یکی از اون شب‌هایی بود که از دیدن خنده‌هات سیر نمی‌شدم و دوست داشتم زمان همون‌جا متوقف بشه.",
+          media: [{ type: "photo", src: "assets/images/holloween.jpeg" }],
           side: "left",
         },
         {
-          date: "April 2025",
-          title: "Picnic at the Park",
+          date: "جمعه ۳۰ آبان ۱۴۰۴",
+          title: "املت صبحگاهی در جمشیدیه",
           description:
-            "We sat there in silence, watching the sky turn every shade of orange and pink. I looked at you and thought — yes, this is exactly where I want to be.",
-          type: "video",
-          src: "assets/videos/picnic.mp4",
-          tag: "Golden hour",
+            "یه روز ساده، یه پیکنیک معمولی، یه املت پر عشق و دو نفر که کنار هم خوشحال بودن. اون روز یادم داد که خوشبختی همیشه توی چیزهای بزرگ نیست.",
+          media: [
+            { type: "video", src: "assets/videos/picnic.mp4" },
+            { type: "photo", src: "assets/images/picnic2.jpeg" },
+          ],
           side: "right",
         },
         {
-          date: "July 12, 2025",
-          title: "One Year Later",
+          date: "جمعه ۳ بهمن ۱۴۰۴",
+          title: "اولین آدم برفی ای که ساختیم",
           description:
-            "365 days, and I'm more in love with you today than I was on day one. Happy anniversary, my love. This is just the beginning.",
-          type: "photo",
-          src: "assets/images/amazingday.jpeg",
-          tag: "One year",
+            "بچه‌تر از همیشه شدیم و وسط سرما آدم‌برفی ساختیم. هنوزم هر وقت به اون روز فکر می‌کنم، خنده‌هامون توی گوشم می‌پیچه.",
+          media: [{ type: "photo", src: "assets/images/wearegod.jpeg" }],
           side: "left",
+        },
+        {
+          date: "جمعه ۱۰ بهمن ۱۴۰۴",
+          title: "اولین جشن تولدم کنار تو",
+          description:
+            "اولین تولدی که تو بخشی ازش بودی. هدیه‌های تو و حضور تو باعث شد اون روز برام خاص‌تر از همه تولدهای قبل باشه و تا مدت‌ها لبخند روی صورتم بمونه.",
+          media: [{ type: "photo", src: "assets/images/hisBday.jpeg" }],
+          side: "right",
+        },
+        {
+          date: "جمعه ۲۴ بهمن ۱۴۰۴",
+          title: "Valentine",
+          description:
+            "روز ولنتاین فقط یه بهونه بود. چون از وقتی وارد زندگیم شدی، هر روز یه دلیل جدید برای دوست داشتنت پیدا کردم.",
+          media: [
+            { type: "photo", src: "assets/images/valentine.jpeg" },
+            { type: "photo", src: "assets/images/valentineev.jpeg" },
+          ],
+          side: "left",
+        },
+        {
+          date: "سه شنبه ۲۵ فروردین ۱۴۰۵",
+          title: "روز های سختمون",
+          description:
+            "روزهای سختی بود؛ نه پولی بود، نه خیال راحتی. اما همین که کنار هم بودیم باعث شد بفهمم آرامش واقعی آدم‌ها نیستن، بلکه آدم درستیه که کنارت می‌ایسته.",
+          media: [{ type: "photo", src: "assets/images/wardaysride.jpeg" }],
+          side: "right",
+        },
+        {
+          date: "شنبه ۱۶ خرداد ۱۴۰۵",
+          title: "کتابخانه ملی",
+          description:
+            "شاید برای خیلی‌ها درس خوندن کنار هم هیجان‌انگیز نباشه، ولی برای من یکی از قشنگ‌ترین خاطره‌هاست؛ چون حتی سکوت کنار تو هم دوست‌داشتنیه.",
+          media: [{ type: "photo", src: "assets/images/letsstudy.jpeg" }],
+          side: "left",
+        },
+        {
+          date: "پنجشنبه ۲۸ خرداد ۱۴۰۵",
+          title: "اولین درکه",
+          description:
+            "اون روز همه چیز عجیب و دوست‌داشتنی بود؛ آب خنک رودخونه، ناهار کنار جریان آب و البته اون طاووس که انگار از ناکجاآباد پیداش شده بود.",
+          media: [{ type: "photo", src: "assets/images/isThatATavoos.jpeg" }],
+          side: "right",
         },
       ];
 
@@ -886,11 +987,14 @@
       //  GENERATE TIMELINE ENTRIES
       // ================================================================
 
+      // ================================================================
+      //  GENERATE TIMELINE ENTRIES
+      // ================================================================
+
       const timeline = document.getElementById("timeline");
 
-      // Auto-alternate sides if not specified
       let lastSide = "left";
-      timelineData.forEach((item, i) => {
+      timelineData.forEach((item) => {
         if (!item.side) {
           item.side = lastSide === "left" ? "right" : "left";
         }
@@ -900,24 +1004,41 @@
         entry.className = `tl-entry ${item.side}`;
 
         let mediaHTML = "";
-        if (item.type === "photo") {
+        if (item.media && item.media.length > 0) {
+          const itemsHTML = item.media
+            .map((m, i) => {
+              const activeClass = i === 0 ? " active" : "";
+              if (m.type === "video") {
+                return `<div class="tl-media-item${activeClass}" data-index="${i}">
+                  <video src="${m.src}" muted loop playsinline preload="metadata"></video>
+                  <button class="tl-video-mute muted" aria-label="Toggle sound"><i class="fas fa-volume-mute"></i></button>
+                </div>`;
+              }
+              return `<div class="tl-media-item${activeClass}" data-index="${i}">
+                <img src="${m.src}" alt="${item.title}" loading="lazy">
+              </div>`;
+            })
+            .join("");
+
+          const arrowsAndCounter =
+            item.media.length > 1
+              ? `<div class="tl-gallery-arrows">
+        <button class="tl-gallery-arrow tl-gallery-arrow--prev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
+        <button class="tl-gallery-arrow tl-gallery-arrow--next" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div class="tl-gallery-counter">1 / ${item.media.length}</div>`
+              : "";
+
           mediaHTML = `
       <div class="tl-media">
-        <img src="${item.src}" alt="${item.title}" loading="lazy">
-        <div class="media-overlay"></div>
-      </div>`;
-        } else if (item.type === "video") {
-          mediaHTML = `
-      <div class="tl-media">
-        <video src="${item.src}" muted loop playsinline preload="metadata"></video>
-        <div class="media-overlay"></div>
+        <div class="tl-media-gallery">${itemsHTML}</div>
+        <div class="tl-media-overlay"></div>
+        ${arrowsAndCounter}
       </div>`;
         }
 
-        const tagHTML = item.tag
-          ? `<span class="tl-tag">${item.tag}</span>`
-          : "";
-        const textOnlyClass = item.type === "text" ? " text-only" : "";
+        const textOnlyClass =
+          !item.media || item.media.length === 0 ? " text-only" : "";
 
         entry.innerHTML = `
     <div class="tl-dot"></div>
@@ -927,12 +1048,132 @@
       <div class="tl-content">
         <h3>${item.title}</h3>
         <p>${item.description}</p>
-        ${tagHTML}
       </div>
     </div>
   `;
 
         timeline.appendChild(entry);
+      });
+
+      // ================================================================
+      //  GALLERY — arrow navigation
+      // ================================================================
+
+      function switchMedia(mediaEl, idx) {
+        const gallery = mediaEl.querySelector(".tl-media-gallery");
+        const total = gallery.children.length;
+
+        gallery.querySelectorAll(".tl-media-item").forEach((item) => {
+          const wasActive = item.classList.contains("active");
+          item.classList.remove("active");
+          if (wasActive) {
+            const vid = item.querySelector("video");
+            if (vid) vid.pause();
+          }
+        });
+
+        const next = gallery.children[idx];
+        if (next) {
+          next.classList.add("active");
+          const vid = next.querySelector("video");
+          if (vid) {
+            vid.currentTime = 0;
+            vid.play().catch(() => {});
+          }
+        }
+
+        const counter = mediaEl.querySelector(".tl-gallery-counter");
+        if (counter) counter.textContent = `${idx + 1} / ${total}`;
+      }
+
+      document.querySelectorAll(".tl-gallery-arrow").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const media = btn.closest(".tl-media");
+          const gallery = media.querySelector(".tl-media-gallery");
+          const total = gallery.children.length;
+          const active = gallery.querySelector(".tl-media-item.active");
+          const currentIdx = active ? parseInt(active.dataset.index) : 0;
+
+          const isNext = btn.classList.contains("tl-gallery-arrow--next");
+          const nextIdx = isNext
+            ? (currentIdx + 1) % total
+            : (currentIdx - 1 + total) % total;
+
+          switchMedia(media, nextIdx);
+        });
+      });
+
+      // ================================================================
+      //  GALLERY — swipe support (mobile)
+      // ================================================================
+
+      let touchStartX = 0;
+      let touchStartY = 0;
+      document.addEventListener(
+        "touchstart",
+        (e) => {
+          const media = e.target.closest(".tl-media");
+          if (!media || media.querySelectorAll(".tl-media-item").length < 2)
+            return;
+          touchStartX = e.changedTouches[0].screenX;
+          touchStartY = e.changedTouches[0].screenY;
+        },
+        { passive: true },
+      );
+
+      document.addEventListener(
+        "touchend",
+        (e) => {
+          const media = e.target.closest(".tl-media");
+          if (!media || media.querySelectorAll(".tl-media-item").length < 2)
+            return;
+
+          const dx = e.changedTouches[0].screenX - touchStartX;
+          const dy = e.changedTouches[0].screenY - touchStartY;
+          if (Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return;
+
+          const gallery = media.querySelector(".tl-media-gallery");
+          const total = gallery.children.length;
+          const active = gallery.querySelector(".tl-media-item.active");
+          const currentIdx = active ? parseInt(active.dataset.index) : 0;
+
+          const nextIdx =
+            dx < 0
+              ? (currentIdx + 1) % total
+              : (currentIdx - 1 + total) % total;
+
+          switchMedia(media, nextIdx);
+        },
+        { passive: true },
+      );
+
+      // ================================================================
+      //  VIDEO — tap to toggle mute
+      // ================================================================
+
+      document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".tl-video-mute");
+        if (!btn) return;
+
+        const video = btn.closest(".tl-media-item").querySelector("video");
+        if (!video) return;
+
+        video.muted = !video.muted;
+        btn.classList.toggle("muted", video.muted);
+        btn.querySelector("i").className = video.muted
+          ? "fas fa-volume-mute"
+          : "fas fa-volume-up";
+      });
+
+      document.addEventListener("click", (e) => {
+        const video = e.target.closest(".tl-media-item video");
+        if (!video) return;
+        if (e.target.closest(".tl-video-mute")) return;
+
+        const muteBtn = video
+          .closest(".tl-media-item")
+          ?.querySelector(".tl-video-mute");
+        if (muteBtn) muteBtn.click();
       });
 
       // ================================================================
@@ -948,18 +1189,15 @@
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("visible");
-
-            // Autoplay video when visible
-            const video = entry.target.querySelector("video");
-            if (video) {
-              video.play().catch(() => {});
+            const activeItem = entry.target.querySelector(
+              ".tl-media-item.active",
+            );
+            if (activeItem) {
+              const video = activeItem.querySelector("video");
+              if (video) video.play().catch(() => {});
             }
           } else {
-            // Pause video when out of view
-            const video = entry.target.querySelector("video");
-            if (video) {
-              video.pause();
-            }
+            entry.target.querySelectorAll("video").forEach((v) => v.pause());
           }
         });
       }, observerOptions);
@@ -968,7 +1206,7 @@
         .querySelectorAll(".tl-entry")
         .forEach((el) => observer.observe(el));
 
-      // Also animate the love letter
+      // Love letter animation
       const letterObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -1028,23 +1266,12 @@
       }
       updateCounter();
 
-      // Hero date display
-      const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      document.getElementById("heroDate").textContent =
-        `${months[ANNIVERSARY_START.getMonth()]} ${ANNIVERSARY_START.getDate()}, ${ANNIVERSARY_START.getFullYear()} — Today`;
+      document.getElementById("heroDate").innerHTML =
+        '<div class="date-digit"><span>\u06F4</span></div>' +
+        '<div class="date-sep">\u25C9</div>' +
+        '<div class="date-digit"><span>\u06F4</span></div>' +
+        '<div class="date-sep">\u25C9</div>' +
+        '<div class="date-digit"><span>\u06F4</span></div>';
 
       // ================================================================
       //  FLOATING HEARTS (Canvas)
@@ -1071,11 +1298,10 @@
           opacity: Math.random() * 0.4 + 0.1,
           rotation: Math.random() * Math.PI * 2,
           rotSpeed: (Math.random() - 0.5) * 0.02,
-          hue: Math.random() > 0.5 ? 0 : 15, // reds and warm pinks
+          hue: Math.random() > 0.5 ? 0 : 15,
         };
       }
 
-      // Seed initial hearts
       for (let i = 0; i < 15; i++) {
         const h = createHeart();
         h.y = Math.random() * canvas.height;
@@ -1108,13 +1334,11 @@
 
           drawHeart(h.x, h.y, h.size, h.rotation, h.opacity, h.hue);
 
-          // Remove if off screen, replace
           if (h.y < -30) {
             hearts[i] = createHeart();
           }
         });
 
-        // Occasionally add a new heart
         if (hearts.length < 25 && Math.random() < 0.02) {
           hearts.push(createHeart());
         }
@@ -1122,43 +1346,6 @@
         requestAnimationFrame(animateHearts);
       }
       animateHearts();
-
-      // ================================================================
-      //  MUSIC TOGGLE
-      // ================================================================
-
-      const musicToggle = document.getElementById("musicToggle");
-      const bgMusic = document.getElementById("bgMusic");
-      let musicPlaying = false;
-
-      musicToggle.addEventListener("click", () => {
-        if (musicPlaying) {
-          bgMusic.pause();
-          musicToggle.classList.remove("playing");
-        } else {
-          // If no src is set, show a gentle hint
-          if (
-            !bgMusic.querySelector("source").src ||
-            bgMusic.querySelector("source").src === window.location.href
-          ) {
-            // No music file set — just animate the button for fun
-            musicToggle.classList.add("playing");
-            setTimeout(() => {
-              musicToggle.classList.remove("playing");
-            }, 3000);
-            return;
-          }
-          bgMusic
-            .play()
-            .then(() => {
-              musicToggle.classList.add("playing");
-            })
-            .catch(() => {});
-          musicPlaying = true;
-          return;
-        }
-        musicPlaying = !musicPlaying;
-      });
 
       // ================================================================
       //  PARALLAX on hero (subtle mouse movement)
